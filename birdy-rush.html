@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7412418455195467"
+     crossorigin="anonymous"></script>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>BIRDY RUSH V17 FINAL</title>
+
+<style>
+*{
+ box-sizing:border-box;
+ user-select:none;
+ -webkit-user-select:none;
+ -webkit-tap-highlight-color:transparent
+}
+html,body{
+ margin:0;width:100%;height:100%;overflow:hidden;
+ background:#061827;font-family:Arial,sans-serif;
+ touch-action:none
+}
+#app{position:fixed;inset:0;overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+
+button{
+ border:0;min-width:230px;padding:14px 20px;
+ border-radius:16px;color:#fff;font-size:15px;
+ font-weight:900;background:linear-gradient(#ffe75d,#e99319);
+ box-shadow:0 5px 0 #914b0a,0 10px 25px #0006
+}
+button:active{transform:translateY(3px)}
+button.blue{
+ background:linear-gradient(#5de5f7,#1285a7);
+ box-shadow:0 5px 0 #07596e,0 10px 25px #0006
+}
+button.red{
+ background:linear-gradient(#ff7777,#d92e39);
+ box-shadow:0 5px 0 #8b1820,0 10px 25px #0006
+}
+button:disabled{opacity:.45}
+
+.hidden{display:none!important}
+
+.screen{
+ position:absolute;inset:0;z-index:20;
+ display:flex;align-items:center;justify-content:center;
+ flex-direction:column;
+ background:rgba(2,14,27,.48);
+ backdrop-filter:blur(8px)
+}
+
+.logo{
+ font-size:clamp(45px,15vw,82px);
+ font-weight:1000;font-style:italic;
+ letter-spacing:-6px;color:#fff;
+ text-shadow:0 5px 0 #71420d,0 10px 0 #3b2208,0 20px 35px #0009
+}
+.logo span{color:#ffe14b}
+.sub{
+ margin:10px 0 20px;color:#d8f8ff;
+ font-size:10px;font-weight:900;letter-spacing:4px
+}
+.buttons{display:flex;flex-direction:column;gap:10px}
+.soundMain{
+ margin-top:14px;min-width:190px;padding:10px 15px;
+ border-radius:13px;background:linear-gradient(#304d62,#142b3c);
+ box-shadow:0 4px 0 #071722;font-size:12px
+}
+.credit{
+ margin-top:12px;color:#ffffff70;
+ font-size:10px;font-weight:900;letter-spacing:1px
+}
+.stats{
+ display:flex;gap:28px;margin-top:10px;
+ color:#fff;font-size:13px;font-weight:900
+}
+.stats b,.league b{color:#ffe24b}
+.league{
+ margin-top:10px;color:#fff;font-size:11px;font-weight:900
+}
+
+.gameHUD{
+ position:absolute;z-index:10;top:12px;left:12px;right:12px;
+ display:flex;justify-content:space-between;align-items:flex-start;
+ pointer-events:none
+}
+.hudLeft,.hudRight{display:flex;gap:7px}
+.hudBox{
+ padding:8px 11px;border-radius:13px;
+ background:#041b2dcc;border:1px solid #ffffff20;
+ color:#fff;font-size:12px;font-weight:900;
+ box-shadow:0 5px 15px #0005
+}
+.hudBox b{color:#ffe04b}
+#pauseButton{
+ pointer-events:auto;min-width:45px;width:45px;
+ height:40px;padding:0;font-size:17px;
+ background:#092b3cdd;box-shadow:0 4px 12px #0006
+}
+
+.panel{
+ width:min(95vw,550px);max-height:94vh;overflow:auto;
+ padding:18px;border-radius:27px;color:#fff;
+ background:linear-gradient(145deg,#063b51f5,#061b30f5);
+ border:1px solid #ffffff25;
+ box-shadow:0 25px 80px #0009
+}
+.title{text-align:center;font-size:26px;font-weight:1000;margin-bottom:6px}
+.topCoins{text-align:center;color:#ffe04b;font-weight:1000;margin-bottom:8px}
+.collection{text-align:center;color:#bdefff;font-size:9px;font-weight:900;margin-bottom:10px}
+
+.shopHero{
+ position:relative;overflow:hidden;padding:12px;
+ border-radius:22px;min-height:215px;
+ background:linear-gradient(135deg,#e76b24,#7b193d 55%,#28164d);
+ border:1px solid #ffffff25;
+ box-shadow:inset 0 0 35px #0005;margin-bottom:13px
+}
+.saleBadge,.salePercent{
+ position:absolute;top:10px;padding:6px 9px;
+ border-radius:9px;font-size:9px;font-weight:1000;z-index:2
+}
+.saleBadge{left:10px;background:#ff3c55}
+.salePercent{right:10px;background:#ffe04b;color:#6a3a00}
+.heroBird{width:100%;height:95px;display:block}
+.heroName{text-align:center;font-size:22px;font-weight:1000}
+.heroDesc{text-align:center;color:#ffffffbb;font-size:10px;margin:3px 0}
+.priceRow{text-align:center;white-space:nowrap}
+.oldPrice{color:#ffffff70;text-decoration:line-through;font-size:12px;margin-right:6px}
+.newPrice{color:#ffe34b;font-size:22px;font-weight:1000}
+.coinLabel{color:#fff;font-size:10px;font-weight:900}
+.heroBuy{display:block;min-width:200px;margin:8px auto 0;padding:9px;font-size:11px}
+
+.sectionTitle{
+ display:flex;justify-content:space-between;
+ margin:13px 2px 7px;font-size:11px;font-weight:1000
+}
+.sectionTitle span:last-child{color:#8ed9e9;font-size:9px}
+
+.shopGrid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px
+}
+.skin{
+ position:relative;min-width:0;overflow:hidden;
+ border:2px solid transparent;background:#ffffff09;
+ border-radius:17px;padding:8px;text-align:center
+}
+.skin.selected{border-color:#ffe149;box-shadow:0 0 20px #ffe14930}
+.skin.featured{border-color:#ffb52e}
+.skinCanvas{width:100%;height:67px;display:block}
+.skinName{
+ font-weight:1000;font-size:11px;line-height:1.15;
+ min-height:14px;overflow-wrap:anywhere
+}
+.rarity{font-size:7px;letter-spacing:1px;font-weight:1000;color:#aeefff;margin-top:3px}
+.priceBox{
+ min-height:27px;display:flex;align-items:center;
+ justify-content:center;gap:4px;margin:4px 0
+}
+.price{color:#ffe04a;font-weight:1000;font-size:12px;white-space:nowrap}
+.coinSmall{font-size:9px;color:#ffe04a}
+.free{color:#61f5a1;font-size:11px;font-weight:1000;margin:6px 0}
+.owned{color:#75e7ff;font-size:9px;font-weight:1000;margin:6px 0}
+.shopBtn{
+ width:100%;min-width:0;padding:7px 3px;
+ border-radius:10px;font-size:9px;line-height:1.1
+}
+.tag{
+ position:absolute;left:5px;top:5px;padding:3px 5px;
+ border-radius:6px;background:#ff9f20;color:#fff;
+ font-size:6px;font-weight:1000;z-index:2
+}
+.lock{position:absolute;right:6px;top:5px;font-size:13px;z-index:3}
+
+.task{
+ background:#ffffff0a;border-radius:15px;padding:11px;margin:7px 0
+}
+.taskHead{display:flex;justify-content:space-between;gap:8px;font-size:10px;font-weight:1000}
+.progress{height:7px;margin-top:7px;background:#0006;border-radius:10px;overflow:hidden}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ffe04b,#ff9e1d)}
+.reward{margin-top:5px;color:#ffe04b;font-size:9px;font-weight:1000}
+
+.daily{text-align:center;padding:20px;border-radius:20px;background:#ffffff0a}
+.gift{font-size:60px;animation:gift 1.5s infinite ease-in-out}
+@keyframes gift{50%{transform:translateY(-8px) rotate(3deg)}}
+
+.over{font-size:36px;font-weight:1000;text-align:center}
+.finalScore{text-align:center;font-size:38px;font-weight:1000;margin:12px}
+.newRecord{text-align:center;color:#ffe04b;font-weight:1000;margin:10px}
+.runReward{text-align:center;color:#ffe04b;font-weight:1000;margin:10px}
+
+#toast{
+ position:absolute;z-index:100;left:50%;top:13%;
+ transform:translateX(-50%) translateY(-20px);
+ opacity:0;pointer-events:none;padding:11px 17px;
+ border-radius:14px;background:#08283cf2;
+ border:1px solid #ffffff22;box-shadow:0 10px 35px #0008;
+ color:#fff;font-weight:1000;font-size:12px;
+ transition:.22s;text-align:center;white-space:nowrap
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+#hitFlash{
+ position:absolute;inset:0;z-index:75;pointer-events:none;
+ background:radial-gradient(circle,#ff303055,#ff001533 45%,transparent 75%);
+ opacity:0
+}
+#hitFlash.show{animation:flash .4s ease}
+@keyframes flash{
+ 0%{opacity:0}12%{opacity:1}35%{opacity:.55}100%{opacity:0}
+}
+body.shake{animation:shake .4s ease}
+@keyframes shake{
+ 0%{transform:translate(0)}
+ 15%{transform:translate(-8px,5px)}
+ 30%{transform:translate(8px,-5px)}
+ 45%{transform:translate(-6px,-3px)}
+ 60%{transform:translate(5px,4px)}
+ 100%{transform:translate(0)}
+}
+#purchaseFx{
+ position:absolute;inset:0;z-index:90;
+ display:flex;align-items:center;justify-content:center;
+ pointer-events:none;opacity:0
+}
+#purchaseFx.show{animation:purchase .8s ease forwards}
+@keyframes purchase{
+ 0%{opacity:0}20%{opacity:1}70%{opacity:1}100%{opacity:0}
+}
+.fxText{
+ font-size:30px;font-weight:1000;color:#fff;
+ text-shadow:0 4px 20px #000
+}
+.coinFloat{
+ position:absolute;z-index:80;pointer-events:none;
+ color:#ffe04b;font-size:14px;font-weight:1000;
+ animation:coinFly .65s ease forwards
+}
+@keyframes coinFly{
+ 0%{opacity:0;transform:translateY(10px) scale(.7)}
+ 20%{opacity:1}
+ 100%{opacity:0;transform:translateY(-45px) scale(1.1)}
+}
+
+@media(max-width:380px){
+ .panel{padding:13px}
+ .shopGrid{gap:6px}
+ .skin{padding:6px 4px}
+ .skinCanvas{height:60px}
+ .skinName{font-size:10px}
+ .shopBtn{font-size:8px}
+}
+</style>
+</head>
+
+<body>
+<div id="app">
+
+<canvas id="game"></canvas>
+<div id="hitFlash"></div>
+<div id="toast"></div>
+
+<div id="purchaseFx">
+ <div class="fxText">🎉 BIRD UNLOCKED!</div>
+</div>
+
+<!-- GAME HUD -->
+<div id="gameHUD" class="gameHUD hidden">
+ <div class="hudLeft">
+  <div class="hudBox">⭐ <b id="scoreHUD">0</b></div>
+  <div class="hudBox">❤️ <b id="livesHUD">3</b></div>
+ </div>
+ <div class="hudRight">
+  <div class="hudBox">🪙 <b id="runCoinsHUD">0</b></div>
+  <button id="pauseButton">Ⅱ</button>
+ </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="screen">
+ <div class="logo">BIRDY <span>RUSH</span></div>
+ <div class="sub">FLY • SURVIVE • COLLECT</div>
+
+ <div class="buttons">
+  <button id="play">▶ PLAY</button>
+  <button id="shop" class="blue">🛍️ SHOP</button>
+  <button id="tasks" class="blue">🎯 MISSIONS</button>
+  <button id="daily" class="blue">🎁 DAILY REWARD</button>
+ </div>
+
+ <button id="soundMain" class="soundMain">🔊 SOUND: ON</button>
+
+ <div class="league">LEAGUE: <b id="league">BRONZE</b></div>
+
+ <div class="stats">
+  <span>🏆 <b id="best">0</b></span>
+  <span>🪙 <b id="coins">0</b></span>
+ </div>
+
+ <div class="credit">BY ALIDAI</div>
+</div>
+
+<!-- SHOP -->
+<div id="shopScreen" class="screen hidden">
+ <div class="panel">
+  <div class="title">🛍️ BIRD SHOP</div>
+  <div class="topCoins">🪙 <span id="shopCoins">0</span> COINS</div>
+  <div class="collection">COLLECTION <span id="collection">1/15</span></div>
+
+  <div class="shopHero">
+   <div class="saleBadge">🔥 FLASH DEAL</div>
+   <div class="salePercent">25% OFF</div>
+   <canvas id="heroCanvas" class="heroBird"></canvas>
+   <div class="heroName" id="heroName">FIRE</div>
+   <div class="heroDesc" id="heroDesc">Fire energy.</div>
+   <div class="priceRow">
+    <span class="oldPrice" id="heroOld">100</span>
+    <span class="newPrice" id="heroNew">75</span>
+    <span class="coinLabel">🪙 COINS</span>
+   </div>
+   <button id="heroBuy" class="heroBuy">🔥 75 COINS</button>
+  </div>
+
+  <div class="sectionTitle">
+   <span>🐦 ALL BIRDS</span>
+   <span>PRICES</span>
+  </div>
+
+  <div id="shopGrid" class="shopGrid"></div>
+
+  <button id="shopBack" class="blue" style="width:100%;margin-top:12px">
+   ← BACK
+  </button>
+ </div>
+</div>
+
+<!-- MISSIONS -->
+<div id="tasksScreen" class="screen hidden">
+ <div class="panel">
+  <div class="title">🎯 MISSIONS</div>
+  <div id="taskList"></div>
+  <button id="taskBack" class="blue" style="width:100%;margin-top:10px">← BACK</button>
+ </div>
+</div>
+
+<!-- DAILY -->
+<div id="dailyScreen" class="screen hidden">
+ <div class="panel">
+  <div class="title">🎁 DAILY REWARD</div>
+  <div class="daily">
+   <div class="gift">🎁</div>
+   <div id="dailyText">Your reward is ready!</div>
+   <button id="claim" style="margin-top:17px">🪙 CLAIM 100 COINS</button>
+  </div>
+  <button id="dailyBack" class="blue" style="width:100%;margin-top:12px">← BACK</button>
+ </div>
+</div>
+
+<!-- GAME OVER -->
+<div id="gameOver" class="screen hidden">
+ <div class="panel">
+  <div class="over">GAME OVER</div>
+  <div class="finalScore">⭐ <span id="finalScore">0</span></div>
+  <div style="text-align:center">BEST: <b id="finalBest">0</b></div>
+  <div id="newRecord" class="newRecord hidden">🏆 NEW RECORD!</div>
+  <div id="runReward" class="runReward"></div>
+
+  <button id="again">↻ PLAY AGAIN</button>
+  <button id="backMenu" class="blue" style="margin-top:10px">MAIN MENU</button>
+ </div>
+</div>
+
+<!-- PAUSE -->
+<div id="pauseScreen" class="screen hidden">
+ <div class="panel" style="text-align:center">
+  <div class="title">⏸️ PAUSED</div>
+  <button id="resume">▶ RESUME</button>
+  <button id="pauseMenu" class="blue" style="margin-top:10px">MAIN MENU</button>
+ </div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   BASIC SETUP
+========================================================= */
+
+const gameCanvas=document.getElementById("game");
+const ctx=gameCanvas.getContext("2d");
+
+const heroCanvas=document.getElementById("heroCanvas");
+const hctx=heroCanvas.getContext("2d");
+
+let W=window.innerWidth;
+let H=window.innerHeight;
+let DPR=1;
+
+function resize(){
+ W=window.innerWidth;
+ H=window.innerHeight;
+ DPR=Math.min(window.devicePixelRatio||1,2);
+
+ gameCanvas.width=Math.floor(W*DPR);
+ gameCanvas.height=Math.floor(H*DPR);
+ gameCanvas.style.width=W+"px";
+ gameCanvas.style.height=H+"px";
+
+ ctx.setTransform(DPR,0,0,DPR,0,0);
+
+ heroCanvas.width=600;
+ heroCanvas.height=190;
+}
+
+window.addEventListener("resize",resize);
+resize();
+
+/* =========================================================
+   BIRDS
+========================================================= */
+
+const BIRDS=[
+ {name:"SKY",price:0,rarity:"COMMON",c:"#20c3df",light:"#eaffff",dark:"#08748b",wing:"#0fa8c5",glow:"#6cf3ff",desc:"Classic and balanced."},
+ {name:"FIRE",price:100,rarity:"RARE",c:"#ff4d48",light:"#ffd07c",dark:"#941f2d",wing:"#df3134",glow:"#ff7125",desc:"🔥 Fire energy."},
+ {name:"MAGIC",price:250,rarity:"RARE",c:"#9659eb",light:"#edd7ff",dark:"#4e2a99",wing:"#713fc9",glow:"#c06cff",desc:"✨ Magical aura."},
+ {name:"GOLD",price:500,rarity:"EPIC",c:"#ffd332",light:"#fff9aa",dark:"#a56b00",wing:"#efa817",glow:"#fff04e",desc:"👑 Golden bird."},
+ {name:"ICE",price:750,rarity:"EPIC",c:"#69dcff",light:"#f1ffff",dark:"#247dad",wing:"#3cbce6",glow:"#8dffff",desc:"❄️ Ice crystal power."},
+ {name:"SHADOW",price:1200,rarity:"EPIC",c:"#363847",light:"#7c829b",dark:"#10121c",wing:"#20222f",glow:"#a75cff",desc:"☠️ Dark power."},
+ {name:"THUNDER",price:1800,rarity:"EPIC",c:"#708aff",light:"#edf2ff",dark:"#3546a3",wing:"#526bd7",glow:"#7fffff",desc:"⚡ Lightning power."},
+ {name:"RAINBOW",price:3000,rarity:"LEGENDARY",c:"#ff70b6",light:"#fff",dark:"#7057d2",wing:"#64d8ff",glow:"#fff",desc:"🌈 Rainbow bird."},
+ {name:"ALIEN",price:5000,rarity:"LEGENDARY",c:"#7df24b",light:"#edffd7",dark:"#27751f",wing:"#4ac933",glow:"#8cff53",desc:"👽 From another galaxy."},
+ {name:"ROBOT",price:7500,rarity:"LEGENDARY",c:"#a3aec0",light:"#fff",dark:"#394657",wing:"#68788d",glow:"#4cecff",desc:"🤖 Robotic bird."},
+ {name:"DRAGON",price:12000,rarity:"MYTHIC",c:"#e64735",light:"#ffc062",dark:"#701a1b",wing:"#b52c27",glow:"#ff7628",desc:"🐉 Dragon power."},
+ {name:"LEGEND",price:20000,rarity:"MYTHIC",c:"#f4e5ff",light:"#fff",dark:"#7047d0",wing:"#d2a2ff",glow:"#fff",desc:"👑 Legendary bird."},
+ {name:"PHANTOM",price:30000,rarity:"MYTHIC",c:"#9c8cff",light:"#eeeaff",dark:"#302467",wing:"#6656b6",glow:"#c8a8ff",desc:"👻 Ghost bird."},
+ {name:"CYBER",price:45000,rarity:"MYTHIC",c:"#21f2c1",light:"#eaffff",dark:"#08735f",wing:"#12b893",glow:"#21ffe2",desc:"💚 Cyber energy."},
+ {name:"COSMIC",price:75000,rarity:"ULTRA",c:"#7466ff",light:"#fff",dark:"#272060",wing:"#483dc2",glow:"#9cffff",desc:"🌌 Cosmic bird."}
+];
+
+/* =========================================================
+   SAVE DATA
+========================================================= */
+
+function numSave(key,def){
+ const n=Number(localStorage.getItem(key));
+ return Number.isFinite(n)?n:def;
+}
+
+let best=numSave("br17Best",0);
+let coins=numSave("br17Coins",0);
+let selected=numSave("br17Selected",0);
+
+let soundOn=localStorage.getItem("br17Sound")!=="off";
+
+let owned;
+try{
+ owned=JSON.parse(localStorage.getItem("br17Owned")||"[0]");
+}catch(e){
+ owned=[0];
+}
+if(!Array.isArray(owned))owned=[0];
+owned=owned.filter(i=>Number.isInteger(i)&&i>=0&&i<BIRDS.length);
+if(!owned.includes(0))owned.unshift(0);
+
+let dailyDate=localStorage.getItem("br17Daily")||"";
+
+let saleBird=numSave("br17SaleBird",1);
+if(saleBird<1||saleBird>=BIRDS.length)saleBird=1;
+
+let tasksData;
+try{
+ tasksData=JSON.parse(localStorage.getItem("br17Tasks")||"null");
+}catch(e){
+ tasksData=null;
+}
+
+if(!Array.isArray(tasksData)||tasksData.length!==4){
+ tasksData=[
+  {text:"PASS 20 PIPES",target:20,value:0,reward:80,done:false},
+  {text:"COLLECT 50 COINS",target:50,value:0,reward:150,done:false},
+  {text:"REACH 10 COMBO",target:10,value:0,reward:200,done:false},
+  {text:"SCORE 75 POINTS",target:75,value:0,reward:300,done:false}
+ ];
+}
+
+function save(){
+ try{
+  localStorage.setItem("br17Best",String(best));
+  localStorage.setItem("br17Coins",String(coins));
+  localStorage.setItem("br17Selected",String(selected));
+  localStorage.setItem("br17Sound",soundOn?"on":"off");
+  localStorage.setItem("br17Owned",JSON.stringify(owned));
+  localStorage.setItem("br17Daily",dailyDate);
+  localStorage.setItem("br17SaleBird",String(saleBird));
+  localStorage.setItem("br17Tasks",JSON.stringify(tasksData));
+ }catch(e){}
+}
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+let audioCtx=null;
+let masterGain=null;
+
+function initAudio(){
+ if(audioCtx)return;
+ try{
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  masterGain=audioCtx.createGain();
+  masterGain.gain.value=soundOn?.16:0;
+  masterGain.connect(audioCtx.destination);
+ }catch(e){}
+}
+
+function unlockAudio(){
+ initAudio();
+ if(audioCtx&&audioCtx.state==="suspended"){
+  audioCtx.resume().catch(()=>{});
+ }
+}
+
+function tone(freq,duration,type="sine",volume=.1,delay=0){
+ if(!soundOn)return;
+ unlockAudio();
+ if(!audioCtx||!masterGain)return;
+
+ try{
+  const now=audioCtx.currentTime+delay;
+  const osc=audioCtx.createOscillator();
+  const gain=audioCtx.createGain();
+
+  osc.type=type;
+  osc.frequency.setValueAtTime(freq,now);
+
+  gain.gain.setValueAtTime(.0001,now);
+  gain.gain.exponentialRampToValueAtTime(
+   Math.max(.001,volume),now+.01
+  );
+  gain.gain.exponentialRampToValueAtTime(
+   .0001,now+duration
+  );
+
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(now);
+  osc.stop(now+duration+.02);
+ }catch(e){}
+}
+
+function clickSound(){tone(300,.04,"square",.035)}
+function flapSound(){tone(520,.06,"square",.06);tone(760,.05,"sine",.035,.02)}
+function coinSound(){tone(900,.07,"sine",.08);tone(1300,.1,"sine",.06,.05)}
+function scoreSound(){tone(700,.06,"triangle",.05)}
+function successSound(){
+ tone(500,.07,"sine",.07);
+ tone(700,.07,"sine",.07,.07);
+ tone(1000,.13,"sine",.07,.14);
+}
+function hitSound(){
+ tone(130,.22,"sawtooth",.15);
+ tone(75,.3,"square",.1,.03);
+ tone(210,.1,"sawtooth",.08,.13);
+}
+
+function updateSoundButton(){
+ document.getElementById("soundMain").textContent=
+  soundOn?"🔊 SOUND: ON":"🔇 SOUND: OFF";
+
+ if(masterGain&&audioCtx){
+  masterGain.gain.setTargetAtTime(
+   soundOn?.16:0,audioCtx.currentTime,.03
+  );
+ }
+}
+
+/* =========================================================
+   UI
+========================================================= */
+
+const menu=document.getElementById("menu");
+const shopScreen=document.getElementById("shopScreen");
+const tasksScreen=document.getElementById("tasksScreen");
+const dailyScreen=document.getElementById("dailyScreen");
+const gameOver=document.getElementById("gameOver");
+const pauseScreen=document.getElementById("pauseScreen");
+const gameHUD=document.getElementById("gameHUD");
+
+function hideScreens(){
+ menu.classList.add("hidden");
+ shopScreen.classList.add("hidden");
+ tasksScreen.classList.add("hidden");
+ dailyScreen.classList.add("hidden");
+ gameOver.classList.add("hidden");
+ pauseScreen.classList.add("hidden");
+}
+
+function updateMenu(){
+ document.getElementById("best").textContent=best;
+ document.getElementById("coins").textContent=coins;
+
+ let league="BRONZE";
+ if(best>=1000)league="DIAMOND";
+ else if(best>=500)league="PLATINUM";
+ else if(best>=250)league="GOLD";
+ else if(best>=100)league="SILVER";
+
+ document.getElementById("league").textContent=league;
+ updateSoundButton();
+}
+
+function showMenu(){
+ stopGame();
+ hideScreens();
+ menu.classList.remove("hidden");
+ updateMenu();
+}
+
+let toastTimer=null;
+function toast(text){
+ const el=document.getElementById("toast");
+ el.textContent=text;
+ el.classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>el.classList.remove("show"),1400);
+}
+
+/* =========================================================
+   BIRD DRAW
+========================================================= */
+
+function drawBird(c,x,y,size,angle=0,birdIndex=selected){
+
+ const b=BIRDS[birdIndex]||BIRDS[0];
+
+ c.save();
+ c.translate(x,y);
+ c.rotate(angle);
+
+ if(c===hctx){
+  c.shadowBlur=18;
+  c.shadowColor=b.glow;
+ }
+
+ c.fillStyle=b.dark;
+ c.beginPath();
+ c.moveTo(-size*.7,0);
+ c.lineTo(-size*1.12,-size*.24);
+ c.lineTo(-size*.95,size*.2);
+ c.closePath();
+ c.fill();
+
+ const g=c.createLinearGradient(-size,-size,size,size);
+ g.addColorStop(0,b.light);
+ g.addColorStop(.3,b.c);
+ g.addColorStop(1,b.dark);
+
+ c.fillStyle=g;
+ c.beginPath();
+ c.ellipse(0,0,size*.72,size*.55,0,0,Math.PI*2);
+ c.fill();
+
+ c.fillStyle=b.wing;
+ c.beginPath();
+ c.ellipse(-size*.1,size*.18,size*.43,size*.25,-.35,0,Math.PI*2);
+ c.fill();
+
+ c.fillStyle="#ffb52d";
+ c.beginPath();
+ c.moveTo(size*.55,-size*.03);
+ c.lineTo(size*.95,size*.12);
+ c.lineTo(size*.55,size*.25);
+ c.closePath();
+ c.fill();
+
+ c.fillStyle="#fff";
+ c.beginPath();
+ c.arc(size*.28,-size*.2,size*.18,0,Math.PI*2);
+ c.fill();
+
+ c.fillStyle="#111";
+ c.beginPath();
+ c.arc(size*.33,-size*.2,size*.085,0,Math.PI*2);
+ c.fill();
+
+ c.fillStyle="#ffffff99";
+ c.beginPath();
+ c.arc(size*.05,-size*.22,size*.07,0,Math.PI*2);
+ c.fill();
+
+ if(
+  b.rarity==="LEGENDARY"||
+  b.rarity==="MYTHIC"||
+  b.rarity==="ULTRA"
+ ){
+  c.strokeStyle=b.glow+"66";
+  c.lineWidth=2;
+  c.beginPath();
+  c.arc(
+   0,0,
+   size*.9+Math.sin(Date.now()/180)*2,
+   0,Math.PI*2
+  );
+  c.stroke();
+ }
+
+ c.restore();
+}
+
+/* =========================================================
+   SHOP
+========================================================= */
+
+function renderHero(){
+ hctx.clearRect(0,0,600,190);
+ drawBird(
+  hctx,300,95,52,
+  Math.sin(Date.now()/500)*.04,
+  saleBird
+ );
+ requestAnimationFrame(renderHero);
+}
+renderHero();
+
+function openShop(){
+
+ stopGame();
+ hideScreens();
+ shopScreen.classList.remove("hidden");
+
+ document.getElementById("shopCoins").textContent=coins;
+
+ const sale=BIRDS[saleBird];
+ const discount=Math.max(25,Math.floor(sale.price*.75));
+
+ document.getElementById("heroName").textContent=sale.name;
+ document.getElementById("heroDesc").textContent=sale.desc;
+ document.getElementById("heroOld").textContent=sale.price;
+ document.getElementById("heroNew").textContent=discount;
+ document.getElementById("heroBuy").textContent=
+  owned.includes(saleBird)
+   ?"✓ SELECT"
+   :`🔥 ${discount} COINS`;
+
+ document.getElementById("collection").textContent=
+  `${owned.length}/${BIRDS.length}`;
+
+ const grid=document.getElementById("shopGrid");
+ grid.innerHTML="";
+
+ BIRDS.forEach((bird,i)=>{
+
+  const card=document.createElement("div");
+  card.className="skin";
+
+  if(i===selected)card.classList.add("selected");
+  if(i===saleBird)card.classList.add("featured");
+
+  card.innerHTML=`
+   ${i===saleBird?'<div class="tag">🔥 DEAL</div>':""}
+   ${!owned.includes(i)?'<div class="lock">🔒</div>':""}
+
+   <canvas class="skinCanvas" width="220" height="100"></canvas>
+
+   <div class="skinName">${bird.name}</div>
+   <div class="rarity">${bird.rarity}</div>
+
+   ${
+    i===0
+     ?'<div class="free">FREE</div>'
+     :owned.includes(i)
+      ?'<div class="owned">✓ OWNED</div>'
+      :`<div class="priceBox">
+          <span class="price">${bird.price}</span>
+          <span class="coinSmall">🪙</span>
+        </div>`
+   }
+
+   <button class="shopBtn ${i===selected?"blue":""}">
+    ${
+     i===selected
+      ?"✓ SELECTED"
+      :owned.includes(i)
+       ?"SELECT"
+       :`🪙 ${bird.price}`
+    }
+   </button>
+  `;
+
+  grid.appendChild(card);
+
+  const sc=card.querySelector(".skinCanvas");
+  const sctx=sc.getContext("2d");
+  drawBird(sctx,110,50,29,0,i);
+
+  card.querySelector("button").addEventListener("click",()=>{
+
+   clickSound();
+
+   if(owned.includes(i)){
+    selected=i;
+    save();
+    toast(`${bird.name} selected!`);
+    openShop();
+   }else{
+    buyBird(i);
+   }
+
+  });
+ });
+}
+
+function buyBird(i){
+
+ const bird=BIRDS[i];
+
+ if(coins<bird.price){
+  tone(120,.15,"square",.07);
+  toast("❌ NOT ENOUGH COINS");
+  return;
+ }
+
+ coins-=bird.price;
+
+ if(!owned.includes(i))owned.push(i);
+
+ selected=i;
+ save();
+
+ successSound();
+
+ const fx=document.getElementById("purchaseFx");
+ fx.classList.remove("show");
+ void fx.offsetWidth;
+ fx.classList.add("show");
+
+ setTimeout(()=>fx.classList.remove("show"),850);
+
+ openShop();
+}
+
+document.getElementById("heroBuy").onclick=()=>{
+
+ clickSound();
+
+ const bird=BIRDS[saleBird];
+ const price=Math.max(25,Math.floor(bird.price*.75));
+
+ if(owned.includes(saleBird)){
+  selected=saleBird;
+  save();
+  toast(`${bird.name} selected!`);
+  openShop();
+  return;
+ }
+
+ if(coins<price){
+  tone(120,.15,"square",.07);
+  toast("❌ NOT ENOUGH COINS");
+  return;
+ }
+
+ coins-=price;
+ owned.push(saleBird);
+ selected=saleBird;
+
+ save();
+ successSound();
+
+ toast(`🎉 ${bird.name} unlocked!`);
+ openShop();
+};
+
+/* =========================================================
+   MISSIONS
+========================================================= */
+
+function renderTasks(){
+
+ const list=document.getElementById("taskList");
+ list.innerHTML="";
+
+ tasksData.forEach(task=>{
+
+  const percent=Math.min(
+   100,
+   Math.floor((task.value/task.target)*100)
+  );
+
+  const div=document.createElement("div");
+  div.className="task";
+
+  div.innerHTML=`
+   <div class="taskHead">
+    <span>${task.text}</span>
+    <span>${Math.min(task.value,task.target)}/${task.target}</span>
+   </div>
+   <div class="progress">
+    <i style="width:${percent}%"></i>
+   </div>
+   <div class="reward">
+    ${task.done?"✓ COMPLETED":"🪙 REWARD: "+task.reward}
+   </div>
+  `;
+
+  list.appendChild(div);
+ });
+}
+
+/* =========================================================
+   DAILY
+========================================================= */
+
+function today(){
+ const d=new Date();
+ return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+function updateDaily(){
+
+ const ready=dailyDate!==today();
+ const claim=document.getElementById("claim");
+
+ claim.disabled=!ready;
+
+ document.getElementById("dailyText").textContent=
+  ready
+   ?"Your reward is ready!"
+   :"You already claimed today's reward. Come back tomorrow!";
+}
+
+document.getElementById("claim").onclick=()=>{
+
+ if(dailyDate===today())return;
+
+ coins+=100;
+ dailyDate=today();
+
+ save();
+ successSound();
+ toast("🎁 +100 COINS!");
+
+ updateDaily();
+ updateMenu();
+};
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let running=false;
+let paused=false;
+
+let score=0;
+let runCoins=0;
+let lives=3;
+let combo=0;
+
+let bird={
+ x:0,y:0,vy:0,r:18
+};
+
+let pipes=[];
+let coinsOnMap=[];
+let particles=[];
+
+let lastTime=0;
+let spawnTimer=0;
+let coinTimer=0;
+let gameTime=0;
+
+let speed=3.2;
+const gravity=.42;
+const flapPower=-7.5;
+
+let collisionLock=0;
+
+/* POWERUPS */
+let magnetTime=0;
+let speedTime=0;
+
+/* =========================================================
+   GAME RESET
+========================================================= */
+
+function resetGame(){
+
+ score=0;
+ runCoins=0;
+ lives=3;
+ combo=0;
+
+ bird.x=W*.25;
+ bird.y=H*.45;
+ bird.vy=0;
+
+ pipes=[];
+ coinsOnMap=[];
+ particles=[];
+
+ spawnTimer=0;
+ coinTimer=0;
+ gameTime=0;
+
+ magnetTime=0;
+ speedTime=0;
+
+ collisionLock=0;
+
+ updateHUD();
+}
+
+function updateHUD(){
+
+ document.getElementById("scoreHUD").textContent=score;
+ document.getElementById("livesHUD").textContent=lives;
+ document.getElementById("runCoinsHUD").textContent=runCoins;
+}
+
+/* =========================================================
+   START / STOP
+========================================================= */
+
+function startGame(){
+
+ unlockAudio();
+
+ hideScreens();
+ gameHUD.classList.remove("hidden");
+
+ resetGame();
+
+ running=true;
+ paused=false;
+ lastTime=performance.now();
+
+ requestAnimationFrame(gameLoop);
+
+ flapSound();
+}
+
+function stopGame(){
+
+ running=false;
+ paused=false;
+ gameHUD.classList.add("hidden");
+}
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+function flap(){
+
+ if(!running||paused)return;
+
+ unlockAudio();
+
+ bird.vy=flapPower;
+ flapSound();
+
+ for(let i=0;i<4;i++){
+  particles.push({
+   x:bird.x-12,
+   y:bird.y+5,
+   vx:-Math.random()*1.5,
+   vy:(Math.random()-.5)*1.5,
+   life:25
+  });
+ }
+}
+
+/* =========================================================
+   SPAWN
+========================================================= */
+
+function spawnPipe(){
+
+ const gap=Math.max(145,205-score*.45);
+ const minY=70;
+ const maxY=H-95-gap;
+
+ const gapY=
+  minY+
+  Math.random()*Math.max(20,maxY-minY);
+
+ pipes.push({
+  x:W+70,
+  width:64,
+  gapY:gapY,
+  gap:gap,
+  passed:false
+ });
+}
+
+function spawnCoin(){
+
+ /*
+   Coins are now spread around the playable area
+   instead of appearing in one straight line.
+ */
+ const marginTop=85;
+ const marginBottom=75;
+
+ coinsOnMap.push({
+  x:W+45+Math.random()*80,
+  y:marginTop+
+   Math.random()*
+   Math.max(40,H-marginTop-marginBottom),
+  r:10,
+  rot:Math.random()*6.28
+ });
+}
+
+/* =========================================================
+   POWERUPS
+========================================================= */
+
+function spawnPowerup(){
+
+ const type=Math.random()<.5?"MAGNET":"SPEED";
+
+ coinsOnMap.push({
+  x:W+80,
+  y:100+Math.random()*Math.max(40,H-190),
+  r:14,
+  rot:0,
+  power:type
+ });
+}
+
+/* =========================================================
+   COLLISION
+========================================================= */
+
+function circleRectCollision(cx,cy,r,rx,ry,rw,rh){
+
+ const nx=Math.max(rx,Math.min(cx,rx+rw));
+ const ny=Math.max(ry,Math.min(cy,ry+rh));
+
+ const dx=cx-nx;
+ const dy=cy-ny;
+
+ return dx*dx+dy*dy<r*r;
+}
+
+function collisionEffect(){
+
+ hitSound();
+
+ document.body.classList.remove("shake");
+ void document.body.offsetWidth;
+ document.body.classList.add("shake");
+
+ const flash=document.getElementById("hitFlash");
+ flash.classList.remove("show");
+ void flash.offsetWidth;
+ flash.classList.add("show");
+
+ for(let i=0;i<28;i++){
+  particles.push({
+   x:bird.x,
+   y:bird.y,
+   vx:(Math.random()-.5)*7,
+   vy:(Math.random()-.5)*7,
+   life:35+Math.random()*20
+  });
+ }
+
+ setTimeout(()=>{
+  document.body.classList.remove("shake");
+ },420);
+}
+
+/* =========================================================
+   LOSE LIFE
+========================================================= */
+
+function loseLife(){
+
+ /*
+   Important:
+   collisionLock prevents multiple collisions
+   during the same recovery period.
+ */
+ if(!running||collisionLock>0)return false;
+
+ collisionLock=900;
+
+ collisionEffect();
+
+ lives--;
+ combo=0;
+
+ updateHUD();
+
+ if(lives<=0){
+
+  setTimeout(()=>{
+   if(running)gameOverScreen();
+  },300);
+
+ }else{
+
+  bird.x=W*.25;
+  bird.y=H*.45;
+  bird.vy=-4;
+
+  toast(`💥 HIT! ${lives} LIVES LEFT`);
+ }
+
+ return true;
+}
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+function checkTasks(){
+
+ let changed=false;
+
+ tasksData.forEach(task=>{
+
+  if(!task.done&&task.value>=task.target){
+
+   task.done=true;
+   coins+=task.reward;
+   changed=true;
+
+   successSound();
+   toast(`🎯 MISSION COMPLETE! +${task.reward}`);
+  }
+ });
+
+ if(changed){
+  save();
+  updateMenu();
+ }
+}
+
+/* =========================================================
+   GAME UPDATE
+========================================================= */
+
+function update(dt){
+
+ if(!running||paused)return;
+
+ gameTime+=dt;
+
+ const factor=dt/16.67;
+
+ if(collisionLock>0){
+  collisionLock=Math.max(0,collisionLock-dt);
+ }
+
+ if(magnetTime>0){
+  magnetTime=Math.max(0,magnetTime-dt);
+ }
+
+ if(speedTime>0){
+  speedTime=Math.max(0,speedTime-dt);
+ }
+
+ speed=3.2+Math.min(3.5,score*.035);
+
+ if(speedTime>0){
+  speed*=1.45;
+ }
+
+ bird.vy+=gravity*factor;
+ bird.y+=bird.vy*factor;
+
+ /* Spawn pipes */
+ spawnTimer+=dt;
+
+ const pipeDelay=Math.max(850,1450-score*2);
+
+ if(spawnTimer>=pipeDelay){
+  spawnTimer=0;
+  spawnPipe();
+ }
+
+ /* Spawn coins */
+ coinTimer+=dt;
+
+ if(coinTimer>=850){
+  coinTimer=0;
+  spawnCoin();
+ }
+
+ /* Occasional powerup */
+ if(score>0&&score%20===0&&Math.floor(gameTime/1000)%8===0){
+  if(Math.random()<.015)spawnPowerup();
+ }
+
+ /* Boundary collision */
+ if(
+  bird.y-bird.r<0||
+  bird.y+bird.r>H-32
+ ){
+  if(loseLife())return;
+ }
+
+ /* Pipes */
+ for(let i=pipes.length-1;i>=0;i--){
+
+  const p=pipes[i];
+  p.x-=speed*factor;
+
+  if(!p.passed&&p.x+p.width<bird.x){
+
+   p.passed=true;
+
+   score++;
+   combo++;
+
+   scoreSound();
+
+   tasksData[0].value++;
+
+   if(combo>tasksData[2].value){
+    tasksData[2].value=combo;
+   }
+
+   if(score>tasksData[3].value){
+    tasksData[3].value=score;
+   }
+
+   checkTasks();
+  }
+
+  const hitTop=circleRectCollision(
+   bird.x,bird.y,bird.r,
+   p.x,0,p.width,p.gapY
+  );
+
+  const hitBottom=circleRectCollision(
+   bird.x,bird.y,bird.r,
+   p.x,p.gapY+p.gap,
+   p.width,
+   H-(p.gapY+p.gap)-32
+  );
+
+  if(hitTop||hitBottom){
+
+   pipes.splice(i,1);
+   loseLife();
+   return;
+  }
+
+  if(p.x+p.width<-60){
+   pipes.splice(i,1);
+  }
+ }
+
+ /* Coins / Powerups */
+ for(let i=coinsOnMap.length-1;i>=0;i--){
+
+  const c=coinsOnMap[i];
+
+  c.x-=speed*factor;
+  c.rot+=.08*factor;
+
+  /*
+    MAGNET:
+    Pull normal coins toward the bird.
+  */
+  if(magnetTime>0&&!c.power){
+
+   const dx=bird.x-c.x;
+   const dy=bird.y-c.y;
+   const dist=Math.sqrt(dx*dx+dy*dy);
+
+   if(dist<180&&dist>1){
+    c.x+=(dx/dist)*5*factor;
+    c.y+=(dy/dist)*5*factor;
+   }
+  }
+
+  const dx=bird.x-c.x;
+  const dy=bird.y-c.y;
+
+  if(dx*dx+dy*dy<
+     (bird.r+c.r)*(bird.r+c.r)){
+
+   coinsOnMap.splice(i,1);
+
+   if(c.power==="MAGNET"){
+
+    magnetTime=8000;
+    successSound();
+    toast("🧲 MAGNET ACTIVE!");
+
+   }else if(c.power==="SPEED"){
+
+    speedTime=6000;
+    successSound();
+    toast("⚡ SPEED BOOST!");
+
+   }else{
+
+    runCoins++;
+    coins++;
+
+    tasksData[1].value++;
+
+    coinSound();
+
+    floatCoin(c.x,c.y);
+
+    checkTasks();
+
+    /*
+      Saving here is now safe because it never touches
+      the animation loop or running state.
+    */
+    save();
+   }
+
+   updateHUD();
+   continue;
+  }
+
+  if(c.x<-40){
+   coinsOnMap.splice(i,1);
+  }
+ }
+
+ /* Particles */
+ for(let i=particles.length-1;i>=0;i--){
+
+  const p=particles[i];
+
+  p.x+=p.vx*factor;
+  p.y+=p.vy*factor;
+  p.vy+=.08*factor;
+  p.life-=factor;
+
+  if(p.life<=0){
+   particles.splice(i,1);
+  }
+ }
+
+ updateHUD();
+}
+
+/* =========================================================
+   DRAW BACKGROUND
+========================================================= */
+
+function drawBackground(){
+
+ /*
+   Dynamic background changes every 20 points.
+ */
+ const stage=Math.floor(score/20)%4;
+
+ const palettes=[
+  ["#062d48","#0b6375","#06263b"],
+  ["#32164d","#6c2876","#20143c"],
+  ["#50200d","#9a421b","#301508"],
+  ["#071d45","#143f91","#08132e"]
+ ];
+
+ const colors=palettes[stage];
+
+ const grad=ctx.createLinearGradient(0,0,0,H);
+ grad.addColorStop(0,colors[0]);
+ grad.addColorStop(.5,colors[1]);
+ grad.addColorStop(1,colors[2]);
+
+ ctx.fillStyle=grad;
+ ctx.fillRect(0,0,W,H);
+
+ /* Sun / moon */
+ const sunX=W*.72;
+ const sunY=H*.18;
+
+ const sun=ctx.createRadialGradient(
+  sunX,sunY,5,sunX,sunY,150
+ );
+
+ sun.addColorStop(0,"#fff9a555");
+ sun.addColorStop(1,"transparent");
+
+ ctx.fillStyle=sun;
+ ctx.fillRect(0,0,W,H);
+
+ /* Clouds */
+ ctx.fillStyle="#ffffff12";
+
+ for(let i=0;i<6;i++){
+
+  const x=
+   ((i*190-gameTime*.025)%(W+240))-120;
+
+  const y=65+(i%3)*100;
+
+  ctx.beginPath();
+  ctx.arc(x,y,27,0,Math.PI*2);
+  ctx.arc(x+30,y-12,34,0,Math.PI*2);
+  ctx.arc(x+65,y,24,0,Math.PI*2);
+  ctx.fill();
+ }
+
+ /* Ground */
+ ctx.fillStyle="#05263a";
+ ctx.fillRect(0,H-32,W,32);
+
+ ctx.fillStyle="#0b7180";
+ ctx.fillRect(0,H-32,W,5);
+}
+
+/* =========================================================
+   DRAW PIPE
+========================================================= */
+
+function drawPipe(p){
+
+ const x=p.x;
+ const w=p.width;
+
+ const grad=ctx.createLinearGradient(x,0,x+w,0);
+ grad.addColorStop(0,"#155d38");
+ grad.addColorStop(.5,"#43c957");
+ grad.addColorStop(1,"#0b7137");
+
+ ctx.fillStyle=grad;
+
+ ctx.fillRect(x,0,w,p.gapY);
+
+ ctx.fillStyle="#5ee26c";
+ ctx.fillRect(x-6,p.gapY-18,w+12,18);
+
+ ctx.fillStyle=grad;
+
+ ctx.fillRect(
+  x,p.gapY+p.gap,
+  w,H-(p.gapY+p.gap)-32
+ );
+
+ ctx.fillStyle="#5ee26c";
+ ctx.fillRect(
+  x-6,p.gapY+p.gap,
+  w+12,18
+ );
+
+ ctx.fillStyle="#ffffff18";
+ ctx.fillRect(x+10,0,8,p.gapY);
+
+ ctx.fillRect(
+  x+10,p.gapY+p.gap,
+  8,H-(p.gapY+p.gap)
+ );
+}
+
+/* =========================================================
+   DRAW COINS
+========================================================= */
+
+function drawCoin(c){
+
+ ctx.save();
+
+ ctx.translate(c.x,c.y);
+
+ if(c.power){
+
+  ctx.shadowBlur=15;
+  ctx.shadowColor=
+   c.power==="MAGNET"?"#ff4b91":"#48eaff";
+
+  ctx.fillStyle=
+   c.power==="MAGNET"?"#ff4b91":"#48eaff";
+
+  ctx.beginPath();
+  ctx.arc(0,0,c.r+3,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+  ctx.fillStyle="#fff";
+  ctx.font="bold 12px Arial";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.fillText(
+   c.power==="MAGNET"?"M":"⚡",
+   0,0
+  );
+
+ }else{
+
+  ctx.rotate(Math.sin(c.rot));
+
+  ctx.shadowBlur=12;
+  ctx.shadowColor="#ffe04b";
+
+  ctx.fillStyle="#ffe04b";
+
+  ctx.beginPath();
+  ctx.arc(0,0,c.r,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+
+  ctx.fillStyle="#9c5e00";
+  ctx.font="bold 11px Arial";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.fillText("C",0,0);
+ }
+
+ ctx.restore();
+}
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+function drawParticles(){
+
+ for(const p of particles){
+
+  ctx.globalAlpha=Math.max(0,p.life/40);
+
+  ctx.fillStyle="#ffe04b";
+
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,2.5,0,Math.PI*2);
+  ctx.fill();
+ }
+
+ ctx.globalAlpha=1;
+}
+
+/* =========================================================
+   DRAW
+========================================================= */
+
+function draw(){
+
+ drawBackground();
+
+ for(const p of pipes)drawPipe(p);
+ for(const c of coinsOnMap)drawCoin(c);
+
+ drawParticles();
+
+ const angle=Math.max(
+  -.45,
+  Math.min(.55,bird.vy*.055)
+ );
+
+ drawBird(
+  ctx,
+  bird.x,
+  bird.y,
+  25,
+  angle,
+  selected
+ );
+
+ /* Powerup indicators */
+ if(magnetTime>0){
+
+  ctx.strokeStyle="#ff4b91aa";
+  ctx.lineWidth=2;
+
+  ctx.beginPath();
+  ctx.arc(
+   bird.x,bird.y,
+   42+Math.sin(Date.now()/100)*3,
+   0,Math.PI*2
+  );
+  ctx.stroke();
+ }
+
+ if(speedTime>0){
+
+  ctx.fillStyle="#48eaff";
+  ctx.font="bold 12px Arial";
+  ctx.textAlign="center";
+  ctx.fillText(
+   "⚡ SPEED",
+   bird.x,
+   bird.y-35
+  );
+ }
+}
+
+/* =========================================================
+   LOOP
+========================================================= */
+
+function gameLoop(time){
+
+ if(!running)return;
+
+ if(paused){
+  lastTime=time;
+  requestAnimationFrame(gameLoop);
+  return;
+ }
+
+ let dt=time-lastTime;
+ lastTime=time;
+
+ dt=Math.min(Math.max(dt,0),35);
+
+ update(dt);
+ draw();
+
+ if(running){
+  requestAnimationFrame(gameLoop);
+ }
+}
+
+/* =========================================================
+   GAME OVER
+========================================================= */
+
+function gameOverScreen(){
+
+ if(!running)return;
+
+ running=false;
+ paused=false;
+
+ gameHUD.classList.add("hidden");
+
+ const oldBest=best;
+
+ if(score>best){
+  best=score;
+ }
+
+ const reward=Math.max(
+  5,
+  Math.floor(score*.8)+runCoins
+ );
+
+ coins+=reward;
+
+ save();
+
+ document.getElementById("finalScore").textContent=score;
+ document.getElementById("finalBest").textContent=best;
+
+ document.getElementById("runReward").textContent=
+  `🪙 RUN REWARD: +${reward} COINS`;
+
+ document.getElementById("newRecord")
+  .classList.toggle("hidden",score<=oldBest);
+
+ gameOver.classList.remove("hidden");
+
+ if(score>oldBest){
+  successSound();
+ }
+}
+
+/* =========================================================
+   FLOAT COIN
+========================================================= */
+
+function floatCoin(x,y){
+
+ const el=document.createElement("div");
+
+ el.className="coinFloat";
+ el.textContent="+1 🪙";
+ el.style.left=x+"px";
+ el.style.top=y+"px";
+
+ document.getElementById("app").appendChild(el);
+
+ setTimeout(()=>{
+  if(el.parentNode)el.remove();
+ },650);
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+function inputFlap(e){
+
+ if(e){
+
+  if(
+   e.target.closest("button")||
+   e.target.closest(".panel")
+  ){
+   return;
+  }
+ }
+
+ flap();
+}
+
+gameCanvas.addEventListener(
+ "pointerdown",
+ inputFlap,
+ {passive:true}
+);
+
+document.addEventListener("keydown",e=>{
+
+ if(
+  e.code==="Space"||
+  e.code==="ArrowUp"
+ ){
+  e.preventDefault();
+  flap();
+ }
+
+});
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+document.getElementById("play").onclick=()=>{
+ clickSound();
+ startGame();
+};
+
+document.getElementById("shop").onclick=()=>{
+ clickSound();
+ openShop();
+};
+
+document.getElementById("tasks").onclick=()=>{
+ clickSound();
+ stopGame();
+ hideScreens();
+ tasksScreen.classList.remove("hidden");
+ renderTasks();
+};
+
+document.getElementById("daily").onclick=()=>{
+ clickSound();
+ stopGame();
+ hideScreens();
+ dailyScreen.classList.remove("hidden");
+ updateDaily();
+};
+
+document.getElementById("shopBack").onclick=()=>{
+ clickSound();
+ showMenu();
+};
+
+document.getElementById("taskBack").onclick=()=>{
+ clickSound();
+ showMenu();
+};
+
+document.getElementById("dailyBack").onclick=()=>{
+ clickSound();
+ showMenu();
+};
+
+document.getElementById("again").onclick=()=>{
+ clickSound();
+ startGame();
+};
+
+document.getElementById("backMenu").onclick=()=>{
+ clickSound();
+ showMenu();
+};
+
+document.getElementById("pauseButton").onclick=()=>{
+
+ if(!running)return;
+
+ clickSound();
+
+ paused=true;
+ pauseScreen.classList.remove("hidden");
+};
+
+document.getElementById("resume").onclick=()=>{
+
+ clickSound();
+
+ paused=false;
+ pauseScreen.classList.add("hidden");
+ lastTime=performance.now();
+};
+
+document.getElementById("pauseMenu").onclick=()=>{
+ clickSound();
+ showMenu();
+};
+
+/* =========================================================
+   SOUND
+========================================================= */
+
+document.getElementById("soundMain").onclick=()=>{
+
+ unlockAudio();
+
+ soundOn=!soundOn;
+
+ updateSoundButton();
+ save();
+
+ if(soundOn)successSound();
+};
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+updateMenu();
+updateDaily();
+</script>
+
+</body>
+</html>
